@@ -41,5 +41,10 @@ class DB{
         )
     };
 
-    
+    findAllEmployeesByDepartment(departmentId){
+        return this.connection.promise().query(
+            "SELECT employee.id, employee.first_name, employee.last_name LEFT JOIN department department on role.department_id = department.id WHERE department.id = ?;",
+            departmentId
+        )
+    };
 }

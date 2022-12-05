@@ -60,10 +60,13 @@ function appMenu(){
                 addDept();
                 break;
             case "ADD_EMPLOYEE":
-
+                addEmp();
                 break;
             case "ADD_ROLE":
                 addRole();
+                break;
+            case "VIEW_EMPLOYEES_BY_DEPARTMENT":
+                viewEmpsByDept();
                 break;
             default:
                 break;
@@ -139,5 +142,31 @@ function addRole(){
                     .then(()=>console.log(`Added ${role.title} into the database`))
                     .then(()=>appMenu())
             })
+        })
+};
+
+function viewEmpsByDept(){
+    db.findAllDepartments()
+        .then(([rows])=>{
+            let departments=rows;
+            const deptChoice=departments.map(({id,name})=>({
+                name:name,
+                value:id
+            }));
+
+            prompt([
+                {
+                    type:"list",
+                    name:"dept_id",
+                    message:"Please select which department to search",
+                    choices:deptChoice
+                }
+            ])
+            .then(res=>db.findAllemployeesByDepartment(res.dept_id))
+            .then(([rows])=>{
+                let employee=rows;
+                console.table(employees);
+            })
+            .then(()=>appMenu())
         })
 };
