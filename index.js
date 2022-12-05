@@ -115,7 +115,7 @@ function appMenu(){
                 delDept();
                 break;
             case "REMOVE_ROLE":
-                deleteRole();
+                delRole();
                 break;
             case "REMOVE_EMPLOYEE":
                 delEmp();
@@ -215,7 +215,7 @@ function viewEmpsByDept(){
                     choices:deptChoice
                 }
             ])
-            .then(res=>db.findAllEmployeesByDepartment(res.dept_id))
+            .then(res=>db.findAllEmployeesByDepartment(res.department_id))
             .then(([rows])=>{
                 let employees=rows;
                 console.table(employees);
@@ -439,7 +439,7 @@ function delDept(){
             switch (choice) {
                 case "CANCEL":
                     console.log("Returning to root menu")
-                    .then(()=>appMenu());
+                    appMenu();
                     break;
                 default:
                     db.deleteDepartment(res.dept_choice)
@@ -455,8 +455,8 @@ function delRole(){
     db.findAllRoles()
     .then(([rows])=>{
         let roles=rows;
-        const roleChoice=roles.map(({id,name})=>({
-            name:name,
+        const roleChoice=roles.map(({id,title})=>({
+            name:title,
             value:id
         }));
 
@@ -473,7 +473,7 @@ function delRole(){
             switch (choice) {
                 case "CANCEL":
                     console.log("Returning to root menu")
-                    .then(()=>appMenu());
+                    appMenu();
                     break;
                 default:
                     db.deleteRole(res.role_choice)
@@ -490,8 +490,7 @@ function delEmp(){
     .then(([rows])=>{
         let employees=rows;
         const empChoice=employees.map(({id,first_name,last_name})=>({
-            first_name:first_name,
-            last_name:last_name,
+            name:`${first_name} ${last_name}`,
             value:id
         }));
 
@@ -504,11 +503,11 @@ function delEmp(){
             choices:empChoice
         })
         .then(res=>{
-            let choice=res.empe_choice;
+            let choice=res.emp_choice;
             switch (choice) {
                 case "CANCEL":
                     console.log("Returning to root menu")
-                    .then(()=>appMenu());
+                    appMenu();
                     break;
                 default:
                     db.deleteEmployee(res.emp_choice)
