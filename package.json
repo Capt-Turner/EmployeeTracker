@@ -7,7 +7,7 @@
         "start": "node index"
     },
     "author": "Seth Turner",
-    "dependecnies": {
+    "dependencies": {
         "inquirer": "^8.2.4",
         "mysql2": "^2.1.0"
     }
