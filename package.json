@@ -4,7 +4,8 @@
     "description": "An interface for non-devs to view and interact with information stored within an SQL database",
     "main": "index.js",
     "scripts":{
-        "start": "node index"
+        "start": "node index",
+        "seed": "node db/seed.sql"
     },
     "author": "Seth Turner",
     "dependencies": {

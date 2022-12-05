@@ -1,5 +1,6 @@
-const db=require('./db');
+const db=require("./db");
 const {prompt}=require("inquirer");
+const { exit } = require('process');
 require("console.table");
 
 launch();
@@ -48,7 +49,7 @@ function appMenu(){
                 },
                 {
                     name:"Update an employee",
-                    value:"UPDTATE_EMPLOYEE",
+                    value:"UPDATE_EMPLOYEE",
                 },
                 {
                     name:"Add a role",
@@ -65,7 +66,7 @@ function appMenu(){
             ]
         }
     ]).then(res=>{
-        let choice=res.choice;
+        let choice=res.menu;
         switch(choice){
             case "VIEW_DEPARTMENTS":
                 viewDepts();
@@ -98,6 +99,7 @@ function appMenu(){
                 viewBudget();
                 break;
             default:
+                quit();
                 break;
         }
     })
@@ -191,9 +193,9 @@ function viewEmpsByDept(){
                     choices:deptChoice
                 }
             ])
-            .then(res=>db.findAllemployeesByDepartment(res.dept_id))
+            .then(res=>db.findAllEmployeesByDepartment(res.dept_id))
             .then(([rows])=>{
-                let employee=rows;
+                let employees=rows;
                 console.table(employees);
             })
             .then(()=>appMenu())
@@ -264,7 +266,7 @@ function updEmp(){
                 }
             ])
             .then(res=>{
-                let choice=res.choice;
+                let choice=res.upd_choice;
                 switch(choice){
                     case "ROLE":
                         db.findAllRoles()
@@ -391,3 +393,7 @@ function viewBudget(){
     .then(()=>appMenu())
 };
 
+function quit(){
+    console.log("Thank you for using Employee Tracker");
+    process.exit();
+};
