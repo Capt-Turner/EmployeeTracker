@@ -132,13 +132,13 @@ function viewRoles(){
 function addDept(){
     prompt([
         {
-            name:"dept_name",
+            name:"name",
             message:"Please enter the name of the department",
         }
     ]).then(res=>{
         let name=res;
         db.addDepartment(name)
-        .then(()=>console.log(`Added ${name.dept_name} into the database`))
+        .then(()=>console.log(`Added ${name.name} into the database`))
         .then(()=>appMenu())
     })
 };
@@ -163,7 +163,7 @@ function addRole(){
                 },
                 {
                     type:"list",
-                    name:"dept_id",
+                    name:"department_id",
                     message:"Please select which department the role belongs too",
                     choices:deptChoice
                 }
@@ -188,7 +188,7 @@ function viewEmpsByDept(){
             prompt([
                 {
                     type:"list",
-                    name:"dept_id",
+                    name:"department_id",
                     message:"Please select which department to search",
                     choices:deptChoice
                 }
@@ -298,6 +298,7 @@ function updEmp(){
                                 name: `${first_name} ${last_name}`,
                                 value: id
                             }));
+                            manChoice.push({name:"None",value:null});
 
                             prompt([
                                 {
@@ -359,6 +360,7 @@ function addEmp(){
                             name:`${first_name} ${last_name}`,
                             value:id
                         }));
+                        manChoice.push({name:"None",value:null});
 
                         prompt({
                             type:"list",
@@ -374,7 +376,7 @@ function addEmp(){
                                 manager_id:res.man_id
                             }
 
-                            db.createEmployee(employee);
+                            db.addEmployee(employee);
                         })
                         .then(()=>console.log("Added employee into the database"))
                         .then(()=>appMenu())
