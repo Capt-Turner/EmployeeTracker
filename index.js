@@ -476,7 +476,42 @@ function delRole(){
             }
         })
     })
-}
+};
+
+function delEmp(){
+    db.findAllEmployees()
+    .then(([rows])=>{
+        let employees=rows;
+        const empChoice=employees.map(({id,first_name,last_name})=>({
+            first_name:first_name,
+            last_name:last_name,
+            value:id
+        }));
+
+        empChoice.push({name:"Cancel",value:"CANCEL"});
+
+        prompt({
+            type:"list",
+            name:"emp_choice",
+            message:"Please select an employee to remove from the database",
+            choices:empChoice
+        })
+        .then(res=>{
+            let choice=res.empe_choice;
+            switch (choice) {
+                case "CANCEL":
+                    console.log("Returning to root menu")
+                    .then(()=>appMenu());
+                    break;
+                default:
+                    db.deleteEmployee(res.emp_choice)
+                    .then(()=>console.log("Employee deleted from database"))
+                    .then(()=>appMenu());
+                    break;
+            }
+        })
+    })
+};
 
 function quit(){
     console.log("Thank you for using Employee Tracker");
