@@ -46,10 +46,10 @@ function appMenu(){
                 viewDepts();
                 break;
             case "VIEW_EMPLOYEES":
-
+                viewEmps();
                 break;
             case "VIEW_ROLES":
-
+                viewRoles();
                 break;
             case "ADD_DEPARTMENT":
 
@@ -71,8 +71,21 @@ function viewDepts(){
         .then(([rows])=>{
             let departments=rows;
             console.table(departments);
-        })
-        .then(()=>appMenu());
+        }).then(()=>appMenu());
 };
 
-function
+function viewEmps(){
+    db.findAllEmployees()
+        .then(([rows])=>{
+            let employees=rows;
+            console.table(employees);
+        }).then(()=>appMenu());
+};
+
+function viewRoles(){
+    db.findAllRoles()
+        .then(([rows])=>{
+            let roles=rows;
+            console.table(roles);
+        }).then(()=>appMenu());
+}
