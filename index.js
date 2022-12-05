@@ -60,6 +60,10 @@ function appMenu(){
                     value:"VIEW_BUDGET_BY_DEPARTMENT",
                 },
                 {
+                    name:"Remove a Department",
+                    value:"REMOVE_DEPARTMENT",
+                },
+                {
                     name:"Exit",
                     value:"QUIT"
                 }
@@ -97,6 +101,9 @@ function appMenu(){
                 break;
             case "VIEW_BUDGET_BY_DEPARTMENT":
                 viewBudget();
+                break;
+            case "REMOVE_DEPARTMENT":
+                delDept();
                 break;
             default:
                 quit();
@@ -394,6 +401,40 @@ function viewBudget(){
     })
     .then(()=>appMenu())
 };
+
+function delDept(){
+    db.findAllDepartments()
+    .then(([rows])=>{
+        let departments=rows;
+        const deptChoice=departments.map(({id,name})=>({
+            name:name,
+            value:id
+        }));
+
+        deptChoice.push({name:"Cancel",value:"CANCEL"});
+
+        prompt({
+            type:"list",
+            name:"dept_choice",
+            message:"Please select a department to remove from the database (NOTE: This will also remove any associated roles and employees)",
+            choices:deptChoice
+        })
+        .then(res=>{
+            let choice=res.dept_choice;
+            switch (choice) {
+                case "CANCEL":
+                    console.log("Returning to root menu")
+                    .then(()=>appMenu());
+                    break;
+                default:
+                    db.deleteDepartment(res.dept_choice)
+                    .then(()=>console.log("Department deleted from database"))
+                    .then(()=>appMenu());
+                    break;
+            }
+        })
+    })
+}
 
 function quit(){
     console.log("Thank you for using Employee Tracker");

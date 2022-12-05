@@ -10,8 +10,12 @@ After a little setup, this app is very user-friendly and easy to learn.
 >
 > Step 2: Replace the SQL login data in db/connection.js to your/the users login credentials to SQL
 >
-> Step 3: Open the terminal and run 
->    npm i
+> Step 3: Open the terminal and run `npm i`
 >
-> Step 4: Run 
->    npm start
+> Step 4: Log into a MySQL terminal and run `SOURCE db/schema.sql`
+>
+> Step 4.5: If you want to use the provided seeding data for testing, run `SOURCE db/seed.sql` in the MySQL terminal
+>
+> Step 5: Run `npm start` from the first terminal
+
+Now that it's been installed and running various action will be available in the command line. Provided is a small sample seed, however this is not required as all data in the database can be written and edited in-app. To get an in-depth view of all the possible actions, refer to this [walkthrough video]()
