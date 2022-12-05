@@ -2,8 +2,12 @@ const db=require('./db');
 const {prompt}=require("inquirer");
 require("console.table");
 
+launch();
+
 function launch(){
+    console.log("--------------------------------------------");
     console.log("Welcome to the Employee Tracker");
+    console.log("--------------------------------------------");
     appMenu();
 };
 
