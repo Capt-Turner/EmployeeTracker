@@ -1,7 +1,5 @@
 const db=require("./db");
 const {prompt}=require("inquirer");
-const { exit } = require('process');
-const { deleteRole } = require("./db");
 require("console.table");
 
 launch();
@@ -520,6 +518,8 @@ function delEmp(){
 };
 
 function quit(){
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     console.log("Thank you for using Employee Tracker");
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     process.exit();
 };

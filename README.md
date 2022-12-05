@@ -19,3 +19,17 @@ After a little setup, this app is very user-friendly and easy to learn.
 > Step 5: Run `npm start` from the first terminal
 
 Now that it's been installed and running various action will be available in the command line. Provided is a small sample seed, however this is not required as all data in the database can be written and edited in-app. To get an in-depth view of all the possible actions, refer to this [walkthrough video]()
+
+### Tools
+
+This app uses the following tools:
+
+- [Inquirer](https://www.npmjs.com/package/inquirer)
+- [MySQL](https://www.mysql.com/)
+
+### Future Development
+
+I consider this project complete, however I do feel there are things that could be added on at a later date.
+
+- Some kind of logo to place at launch to boost UI appeal
+- Go a level up where users can store muiltiple different buisnesses with independent departments, roles, and employees
