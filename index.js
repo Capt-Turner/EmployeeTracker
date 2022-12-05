@@ -61,12 +61,16 @@ function appMenu(){
                     value:"VIEW_BUDGET_BY_DEPARTMENT",
                 },
                 {
-                    name:"Remove a Department",
+                    name:"Remove a department",
                     value:"REMOVE_DEPARTMENT",
                 },
                 {
-                    name:"Remove a Role",
+                    name:"Remove a role",
                     value:"REMOVE_ROLE",
+                },
+                {
+                    name:"Remove an employee",
+                    value:"REMOVE_EMPLOYEE",
                 },
                 {
                     name:"Exit",
@@ -112,6 +116,9 @@ function appMenu(){
                 break;
             case "REMOVE_ROLE":
                 deleteRole();
+                break;
+            case "REMOVE_EMPLOYEE":
+                delEmp();
                 break;
             default:
                 quit();

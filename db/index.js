@@ -69,7 +69,7 @@ class DB{
         )
     };
 
-    updateEmployeeManager(employeeId){
+    updateEmployeeManager(employeeId,managerId){
         return this.connection.promise().query(
             "UPDATE employee SET manager_id =? WHERE id = ?",
             [managerId,employeeId]
