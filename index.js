@@ -1,6 +1,7 @@
 const db=require("./db");
 const {prompt}=require("inquirer");
 const { exit } = require('process');
+const { deleteRole } = require("./db");
 require("console.table");
 
 launch();
@@ -64,6 +65,10 @@ function appMenu(){
                     value:"REMOVE_DEPARTMENT",
                 },
                 {
+                    name:"Remove a Role",
+                    value:"REMOVE_ROLE",
+                },
+                {
                     name:"Exit",
                     value:"QUIT"
                 }
@@ -104,6 +109,9 @@ function appMenu(){
                 break;
             case "REMOVE_DEPARTMENT":
                 delDept();
+                break;
+            case "REMOVE_ROLE":
+                deleteRole();
                 break;
             default:
                 quit();
@@ -429,6 +437,40 @@ function delDept(){
                 default:
                     db.deleteDepartment(res.dept_choice)
                     .then(()=>console.log("Department deleted from database"))
+                    .then(()=>appMenu());
+                    break;
+            }
+        })
+    })
+};
+
+function delRole(){
+    db.findAllRoles()
+    .then(([rows])=>{
+        let roles=rows;
+        const roleChoice=roles.map(({id,name})=>({
+            name:name,
+            value:id
+        }));
+
+        roleChoice.push({name:"Cancel",value:"CANCEL"});
+
+        prompt({
+            type:"list",
+            name:"role_choice",
+            message:"Please select a role to remove from the database",
+            choices:roleChoice
+        })
+        .then(res=>{
+            let choice=res.role_choice;
+            switch (choice) {
+                case "CANCEL":
+                    console.log("Returning to root menu")
+                    .then(()=>appMenu());
+                    break;
+                default:
+                    db.deleteRole(res.role_choice)
+                    .then(()=>console.log("Role deleted from database"))
                     .then(()=>appMenu());
                     break;
             }
