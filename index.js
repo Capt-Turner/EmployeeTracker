@@ -290,7 +290,7 @@ function updEmp(){
                                 {
                                     type:"list",
                                     name:"man_id",
-                                    message:"Please select a new Manager for this employee",
+                                    message:"Please select a new manager for this employee",
                                     choices:manChoice
                                 }
                             ])
@@ -304,3 +304,70 @@ function updEmp(){
         })
     })
 };
+
+function addEmp(){
+    prompt([
+        {
+            name:"first_name",
+            message:"Please enter the employee's first name",
+        },
+        {
+            name:"last_name",
+            message:"Please enter the employee's last name"
+        }
+    ])
+    .then(res=>{
+        let fname=res.first_name;
+        let lname=res.last_name;
+
+        db.findAllRoles()
+            .then(([rows])=>{
+                let roles=rows;
+                const roleChoice=roles.map(({id,title})=>({
+                    name:title,
+                    value:id
+                }));
+
+                prompt([
+                    {
+                        type:"list",
+                        name:"role_id",
+                        message:"Please select a role for this employee",
+                        choices:roleChoice
+                    }
+                ])
+                .then(res=>{
+                    let roleId=res.role_id;
+
+                    db.findAllEmployees()
+                    .then(([rows])=>{
+                        let employees=rows;
+                        const manChoice=employees.map(({id,first_name,last_name})=>({
+                            name:`${first_name} ${last_name}`,
+                            value:id
+                        }));
+
+                        prompt({
+                            type:"list",
+                            name:"man_id",
+                            message:"Please select a manager for this employee",
+                            choices:manChoice
+                        })
+                        .then(res=>{
+                            let employee={
+                                first_name:fname,
+                                last_name:lname,
+                                role_id:roleId,
+                                manager_id:res.man_id
+                            }
+
+                            db.createEmployee(employee);
+                        })
+                        .then(()=>console.log("Added employee into the database"))
+                        .then(()=>appMenu())
+                    })
+                })
+            })
+    })
+};
+
