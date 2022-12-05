@@ -2,6 +2,11 @@ const db=require('./db');
 const {prompt}=require("inquirer");
 require("console.table");
 
+function launch(){
+    console.log("Welcome to the Employee Tracker");
+    appMenu();
+};
+
 function appMenu(){
     prompt([
         {
@@ -52,13 +57,13 @@ function appMenu(){
                 viewRoles();
                 break;
             case "ADD_DEPARTMENT":
-
+                addDept();
                 break;
             case "ADD_EMPLOYEE":
 
                 break;
             case "ADD_ROLE":
-
+                addRole();
                 break;
             default:
                 break;
@@ -88,4 +93,51 @@ function viewRoles(){
             let roles=rows;
             console.table(roles);
         }).then(()=>appMenu());
-}
+};
+
+function addDept(){
+    prompt([
+        {
+            name:"dept_name",
+            message:"Please enter the name of the department",
+        }
+    ]).then(res=>{
+        let name=res;
+        db.addDepartment(name)
+        .then(()=>console.log(`Added ${name.dept_name} into the database`))
+        .then(()=>appMenu())
+    })
+};
+
+function addRole(){
+    db.findAllDepartments()
+        .then(([rows])=>{
+            let departments=rows;
+            const deptChoice=departments.map(({id,name})=>({
+                name:name,
+                value:id
+            }));
+
+            prompt([
+                {
+                    name:"title",
+                    message:"Please enter the name of the role",
+                },
+                {
+                    name:"salary",
+                    message:"Please enter the salary of the role",
+                },
+                {
+                    type:"list",
+                    name:"dept_id",
+                    message:"Please select which department the role belongs too",
+                    choices:deptChoice
+                }
+            ])
+            .then(role=>{
+                db.addRole(role)
+                    .then(()=>console.log(`Added ${role.title} into the database`))
+                    .then(()=>appMenu())
+            })
+        })
+};
