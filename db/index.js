@@ -82,7 +82,7 @@ class DB{
         )
     };
 
-    deleteDepartment(){
+    deleteDepartment(departmentId){
         return this.connection.promise().query(
             "DELETE FROM department WHERE id = ?",
             departmentId
