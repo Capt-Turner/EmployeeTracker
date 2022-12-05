@@ -18,7 +18,13 @@ After a little setup, this app is very user-friendly and easy to learn.
 >
 > Step 5: Run `npm start` from the first terminal
 
-Now that it's been installed and running various action will be available in the command line. Provided is a small sample seed, however this is not required as all data in the database can be written and edited in-app. To get an in-depth view of all the possible actions, refer to this [walkthrough video]()
+Now that it's been installed and running various action will be available in the command line. Provided is a small sample seed, however this is not required as all data in the database can be written and edited in-app. To get an in-depth view of all the possible actions, refer to this [walkthrough video](https://drive.google.com/file/d/1X_g6hzTqxBQxiVvvdnFMXwNFjm-85TPW/view)
+
+## Screenshots
+
+![Example of terminal at launch](/readme_assets/Launch_Screen.png)
+
+![Example of viewing the stored database](/readme_assets/Viewing_Database.png)
 
 ### Tools
 
