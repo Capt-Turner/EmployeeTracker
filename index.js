@@ -51,6 +51,10 @@ function appMenu(){
                     value:"ADD_ROLE",
                 },
                 {
+                    name:"View total budget by department",
+                    value:"VIEW_BUDGET_BY_DEPARTMENT",
+                },
+                {
                     name:"Exit",
                     value:"QUIT"
                 }
@@ -85,6 +89,9 @@ function appMenu(){
                 break;
             case "UPDATE_EMPLOYEE":
                 updEmp();
+                break;
+            case "VIEW_BUDGET_BY_DEPARTMENT":
+                viewBudget();
                 break;
             default:
                 break;
@@ -369,5 +376,14 @@ function addEmp(){
                 })
             })
     })
+};
+
+function viewBudget(){
+    db.viewDepartmentBudgets()
+    .then(([rows])=>{
+        let departments=rows;
+        console.table(departments);
+    })
+    .then(()=>appMenu())
 };
 
