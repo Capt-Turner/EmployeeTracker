@@ -1,0 +1,14 @@
+{
+    "name": "employee-tracker",
+    "version": "1.0.0",
+    "description": "An interface for non-devs to view and interact with information stored within an SQL database",
+    "main": "index.js",
+    "scripts":{
+        "start": "node index"
+    },
+    "author": "Seth Turner",
+    "dependecnies": {
+        "inquirer": "^8.2.4",
+        "mysql2": "^2.1.0"
+    }
+}
