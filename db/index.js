@@ -54,4 +54,18 @@ class DB{
             managerId
         )
     };
+
+    updateEmployeeRole(employeeId, roleId){
+        return this.connection.promise().query(
+            "UPDATE employee SET role_id = ? WHERE id = ?",
+            [roleId,employeeId]
+        )
+    };
+
+    findAllPossManagers(employeeId){
+        return this.connection.promise().query(
+            "SELECT id, first_name, last_name FROM employee WHERE id != ?",
+            employeeId
+        )
+    };
 }

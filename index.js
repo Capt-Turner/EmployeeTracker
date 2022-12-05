@@ -43,6 +43,10 @@ function appMenu(){
                     value:"ADD_EMPLOYEE",
                 },
                 {
+                    name:"Update an employee",
+                    value:"UPDTATE_EMPLOYEE",
+                },
+                {
                     name:"Add a role",
                     value:"ADD_ROLE",
                 },
@@ -78,6 +82,9 @@ function appMenu(){
                 break;
             case "VIEW_EMPLOYEES_BY_MANAGER":
                 viewEmpsByMan();
+                break;
+            case "UPDATE_EMPLOYEE":
+                updEmp();
                 break;
             default:
                 break;
@@ -206,4 +213,94 @@ function viewEmpsByMan(){
             })
             .then(()=>appMenu())
         })
+};
+
+function updEmp(){
+    db.findAllEmployees()
+    .then(([rows])=>{
+        let employees=rows;
+        const empChoice=employees.map(({id,first_name,last_name})=>({
+            name:`${first_name} ${last_name}`,
+            value:id
+        }));
+
+        prompt([
+            {
+                type:"list",
+                name:"emp_id",
+                message:"Please select an employee to update",
+                choices:empChoice
+            }
+        ])
+        .then(res=>{
+            let empId=res.emp_id;
+
+            prompt([
+                {
+                    type:"list",
+                    name:"upd_choice",
+                    message:"Please select what to update",
+                    choices:[
+                        {
+                            name:"Role",
+                            value:"ROLE",
+                        },
+                        {
+                            name:"Manager",
+                            value:"MANAGER"
+                        }
+                    ]
+                }
+            ])
+            .then(res=>{
+                let choice=res.choice;
+                switch(choice){
+                    case "ROLE":
+                        db.findAllRoles()
+                        .then(([rows])=>{
+                            let roles=rows;
+                            const roleChoice=roles.map(({id,title})=>({
+                                name:title,
+                                value:id
+                            }));
+                            
+                            prompt([
+                                {
+                                    type:"list",
+                                    name:"role_id",
+                                    message:"Please select a new role to assign",
+                                    choices:roleChoice
+                                }
+                            ])
+                            .then(res=>db.updateEmployeeRole(empId,res.role_id))
+                            .then(()=>console.log("Employee's role has been updated"))
+                            .then(()=>appMenu())
+                        });
+                        break;
+                    default:
+                        db.findAllPossManagers(empId)
+                        .then(([rows])=>{
+                            let managers=rows;
+                            const manChoice=managers.map(({id, first_name, last_name})=>({
+                                name: `${first_name} ${last_name}`,
+                                value: id
+                            }));
+
+                            prompt([
+                                {
+                                    type:"list",
+                                    name:"man_id",
+                                    message:"Please select a new Manager for this employee",
+                                    choices:manChoice
+                                }
+                            ])
+                            .then(res=>db.updateEmployeeManager(empId,res.man_id))
+                            .then(()=>console.log("Employee's manager has been updated"))
+                            .then(()=>appMenu())
+                        });
+                        break;
+                }
+            }) 
+        })
+    })
 };
