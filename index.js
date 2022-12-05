@@ -23,6 +23,14 @@ function appMenu(){
                     value:"VIEW_EMPLOYEES",
                 },
                 {
+                    name:"View employees in a department",
+                    value:"VIEW_EMPLOYEES_BY_DEPARTMENT",
+                },
+                {
+                    name:"View employees under a manager",
+                    value:"VIEW_EMPLOYEES_BY_MANAGER",
+                },
+                {
                     name:"View all roles",
                     value:"VIEW_ROLES",
                 },
@@ -67,6 +75,9 @@ function appMenu(){
                 break;
             case "VIEW_EMPLOYEES_BY_DEPARTMENT":
                 viewEmpsByDept();
+                break;
+            case "VIEW_EMPLOYEES_BY_MANAGER":
+                viewEmpsByMan();
                 break;
             default:
                 break;
@@ -165,6 +176,32 @@ function viewEmpsByDept(){
             .then(res=>db.findAllemployeesByDepartment(res.dept_id))
             .then(([rows])=>{
                 let employee=rows;
+                console.table(employees);
+            })
+            .then(()=>appMenu())
+        })
+};
+
+function viewEmpsByMan(){
+    db.findAllEmployees()
+        .then(([rows])=>{
+            let managers=rows;
+            const manChoice=managers.map(({id,first_name,last_name})=>({
+                name:`${first_name} ${last_name}`,
+                value:id
+            }));
+            
+            prompt([
+                {
+                    type:"list",
+                    name:"man_id",
+                    message:"Please select a manager",
+                    choices:manChoice
+                }
+            ])
+            .then(res=>db.findAllEmployeesByManager(res.man_id))
+            .then(([rows])=>{
+                let employees=rows;
                 console.table(employees);
             })
             .then(()=>appMenu())

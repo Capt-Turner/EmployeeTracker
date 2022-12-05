@@ -47,4 +47,11 @@ class DB{
             departmentId
         )
     };
+
+    findAllEmployeesByManager(managerId){
+        return this.connection.promise().query(
+            "SELECT employee.id, employee.first_name, employee.last_name WHERE manager_id = ?;",
+            managerId
+        )
+    };
 }
